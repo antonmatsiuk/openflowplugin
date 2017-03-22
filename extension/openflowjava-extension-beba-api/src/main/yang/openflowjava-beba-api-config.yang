@@ -1,0 +1,42 @@
+module openflowjava-beba-api-config {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:api:config";
+    prefix "openflowjava-beba-api";
+
+    import config {prefix config; revision-date 2013-04-05;}
+    import openflow-switch-connection-provider {prefix openflow-switch-connection-provider;revision-date 2014-03-28;}
+
+    description
+        "Beba extensions API in openflow library.";
+
+    revision "2017-03-07" {
+        description
+            "Initial revision";
+    }
+
+    identity openflowjava-extension-beba-api {
+        base config:module-type;
+        config:provided-service beba-extension-codec-registrator;
+        config:java-name-prefix BebaExtensionApiProvider;
+    }
+
+    identity beba-extension-codec-registrator {
+        base config:service-type;
+        config:java-class "org.opendaylight.openflowjava.beba.api.BebaExtensionCodecRegistrator";
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case openflowjava-extension-beba-api {
+            when "/config:modules/config:module/config:type = 'openflowjava-extension-beba-api'";
+
+            list openflow-switch-connection-provider {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity openflow-switch-connection-provider:openflow-switch-connection-provider;
+                    }
+                }
+            }
+        }
+    }
+}

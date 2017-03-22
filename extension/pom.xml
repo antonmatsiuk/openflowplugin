@@ -15,9 +15,13 @@
     <modules>
         <module>openflowjava-extension-nicira-api</module>
         <module>openflowjava-extension-nicira</module>
+        <module>openflowjava-extension-beba-api</module>
+        <module>openflowjava-extension-beba</module>
         <module>openflowplugin-extension-api</module>
         <module>openflowplugin-extension-nicira</module>
         <module>openflowplugin-extension-nicira-config</module>
+        <module>openflowplugin-extension-beba</module>
+        <module>openflowplugin-extension-beba-config</module>
         <module>features-he</module>
         <module>features</module>
         <module>test-extension</module>

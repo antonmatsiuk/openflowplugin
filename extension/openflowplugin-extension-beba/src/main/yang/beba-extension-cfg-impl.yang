@@ -1,0 +1,38 @@
+module beba-extension-impl {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:openflowplugin:beba:config:impl";
+    prefix "bebaExt-cfg-impl";
+
+    import config {prefix config; revision-date 2013-04-05;}
+    import openflowplugin-extension-registry {prefix ofp-ext-reg; revision-date 2015-04-25;}
+    import beba-extension {prefix bebaExt-provider;}
+
+    description
+        "openflow extension for beba - config-impl";
+
+    revision "2017-03-07" {
+        description
+            "Initial revision";
+    }
+
+    identity beba-extension-provider-impl {
+        base config:module-type;
+        config:provided-service bebaExt-provider:beba-extension-provider;
+        config:java-name-prefix ConfigurableBebaExtensionProvider;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case beba-extension-provider-impl {
+            when "/config:modules/config:module/config:type = 'beba-extension-provider-impl'";
+
+            container openflow-plugin-extension-registry {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity ofp-ext-reg:openflow-extension-registry-provider;
+                    }
+                }
+            }
+        }
+    }
+}

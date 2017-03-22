@@ -1,0 +1,32 @@
+module openflowplugin-extension-beba-message {
+    yang-version 1;
+
+    namespace "urn:opendaylight:openflowplugin:extension:beba:message";
+    prefix "openflowplugin-beba-message";
+
+    import yang-ext {prefix ext; revision-date "2013-07-09";}
+    import opendaylight-inventory {prefix inv;revision-date "2013-08-19";}
+
+    import sal-experimenter-message {prefix exp-msg;revision-date "2015-10-20";}
+    import openflowplugin-experimenter-types {prefix exp-type; revision-date "2015-10-20";}
+    import openflowplugin-extension-general {prefix ext-gen;revision-date "2014-07-14";}
+    import beba-message {prefix beba-msg;revision-date "2017-03-07";}
+
+    description
+        "Beba openflow experimenter message extensions.";
+
+    revision "2017-03-07" {
+        description "Initial revision";
+    }
+
+    augment "exp-msg:send-experimenter/exp-msg:input/exp-msg:experimenter-message-of-choice" {
+        ext:augment-identifier "beba-exp-msg";
+        case pkttmp-mod-case {
+            uses beba-msg:msg-pkttmp-mod-grouping;
+        }
+        case event-mod-case {
+            uses beba-msg:msg-event-mod-grouping;
+        }
+    }
+
+}

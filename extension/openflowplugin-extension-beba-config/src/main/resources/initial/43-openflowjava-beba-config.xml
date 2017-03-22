@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vi: set et smarttab sw=4 tabstop=4: -->
+<snapshot>
+  <required-capabilities>
+    <capability>urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:api:config?module=openflowjava-beba-api-config&amp;revision=2014-07-11</capability>
+    <capability>urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:config?module=openflowjava-beba-config&amp;revision=2014-07-11</capability>
+    <capability>urn:opendaylight:params:xml:ns:yang:openflowplugin:extension:api?module=openflowplugin-extension-registry&amp;revision=2015-04-25</capability>
+  </required-capabilities>
+
+  <configuration>
+
+    <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+      <modules xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">
+        <module>
+          <!-- openflowjava codec registry provider -->
+          <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:api:config">prefix:openflowjava-extension-beba-api</type>
+          <name>openflowjava-extension-beba-api-bundle</name>
+
+          <openflow-switch-connection-provider>
+            <type xmlns:ofSwitch="urn:opendaylight:params:xml:ns:yang:openflow:switch:connection:provider">ofSwitch:openflow-switch-connection-provider</type>
+            <name>openflow-switch-connection-provider-legacy</name>
+          </openflow-switch-connection-provider>
+          <openflow-switch-connection-provider>
+            <type xmlns:ofSwitch="urn:opendaylight:params:xml:ns:yang:openflow:switch:connection:provider">ofSwitch:openflow-switch-connection-provider</type>
+            <name>openflow-switch-connection-provider-default</name>
+          </openflow-switch-connection-provider>
+        </module>
+
+        <module>
+          <!-- openflowjava codecs -->
+          <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:config">prefix:openflowjava-extension-beba</type>
+          <name>openflow-beba-bundle</name>
+
+          <beba-extension-codec-registrator>
+            <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:api:config">prefix:beba-extension-codec-registrator</type>
+            <name>openflowjava-beba-ext-registrator</name>
+          </beba-extension-codec-registrator>
+        </module>
+
+        <module>
+          <!-- openflowplugin codecs/converters -->
+          <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:openflowplugin:beba:config:impl">prefix:beba-extension-provider-impl</type>
+          <name>beba-extension-provider-default-impl</name>
+
+          <openflow-plugin-extension-registry>
+            <type xmlns:ofpExtProv="urn:opendaylight:params:xml:ns:yang:openflowplugin:extension:api">ofpExtProv:openflow-extension-registry-provider</type>
+            <name>openflow-ext-provider</name>
+          </openflow-plugin-extension-registry>
+        </module>
+      </modules>
+
+      <services xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">
+        <service>
+          <!-- exposing openflowjava codec registry provider -->
+          <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:openflowplugin:ofjava:beba:api:config">prefix:beba-extension-codec-registrator</type>
+          <instance>
+            <name>openflowjava-beba-ext-registrator</name>
+            <provider>/modules/module[type='openflowjava-extension-beba-api'][name='openflowjava-extension-beba-api-bundle']</provider>
+          </instance>
+        </service>
+      </services>
+    </data>
+
+  </configuration>
+</snapshot>

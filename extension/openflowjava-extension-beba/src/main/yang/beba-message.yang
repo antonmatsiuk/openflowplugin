@@ -1,0 +1,132 @@
+module beba-message {
+    yang-version 1;
+
+    namespace "urn:opendaylight:openflowjava:beba";
+    prefix "beba-msg";
+
+    import openflow-types {prefix oft;}
+    import yang-ext {prefix ext; revision-date "2013-07-09";}
+    import openflow-protocol {prefix ofproto; revision-date "2013-07-31";}
+    import openflow-instruction {prefix ofinstruction;}
+
+    description
+        "Beba openflow message extensions.";
+
+    revision "2017-03-07" {
+        description "Initial revision";
+    }
+
+
+    typedef pkttmp-mod-command {
+        type enumeration {
+            enum OFPSC_ADD_PKTTMP {
+                value 0;
+            }
+            enum OFPSC_DEL_PKTTMP {
+                value 1;
+            }
+        }
+    }
+
+    grouping pkttmp-cmd-grouping {
+        choice cmd-choice {
+            case add-pkttmp-case {
+                container add-pkttmp{
+                    leaf data{
+                        type binary;
+                    }
+                }
+            }
+            case del-pkttmp-case{
+            }
+        }
+    }
+
+    grouping port-state-react-grouping{
+        choice react-choice{
+            case exp-instr-case{
+                container exp-instr{
+                    uses ofinstruction:instructions-grouping;
+                }
+            }
+        }
+    }
+
+    grouping add-event-grouping {
+        choice ev-choice {
+            case port-state-case{
+                container port-state{
+                    leaf port-no{
+                        type uint32;
+                    }
+                    leaf state{
+                        type uint32;
+                    }
+                    leaf react-type{
+                        type uint16;
+                    }
+                    uses port-state-react-grouping;
+                }
+            }
+            case flow-expired-case{
+                //TODO
+            }
+            case timer-expired-case{
+                //TODO
+            }
+            case bucket-state-case{
+                //TODO
+            }
+        }
+    }
+
+    grouping eventmod-cmd-grouping {
+        choice cmd-choice {
+            case add-event-case {
+                container add-event{
+                    leaf ev-type {
+                        type uint16;
+                    }
+                    uses add-event-grouping;
+                }
+            }
+            case del-event-case{
+            }
+        }
+    }
+
+    grouping msg-pkttmp-mod-grouping {
+        container msg-pkttmp-mod{
+            leaf command {
+                type pkttmp-mod-command;
+            }
+            leaf pkttmpid {
+                type uint32;
+            }
+            uses pkttmp-cmd-grouping;
+        }
+    }
+
+    grouping msg-event-mod-grouping {
+        container msg-pkttmp-mod{
+            leaf command {
+                type uint8;
+            }
+            leaf eventid {
+                type uint32;
+            }
+            uses eventmod-cmd-grouping;
+        }
+    }
+
+    //ofp-exp-beba-message
+    augment "/ofproto:experimenter/ofproto:input/ofproto:experimenter-data-of-choice" {
+        ext:augment-identifier "ofj-aug-beba-msg";
+        case msg-pkttmp-mod-case {
+            uses msg-pkttmp-mod-grouping;
+        }
+        case msg-event-mod-case {
+            uses msg-event-mod-grouping;
+        }
+    }
+}
