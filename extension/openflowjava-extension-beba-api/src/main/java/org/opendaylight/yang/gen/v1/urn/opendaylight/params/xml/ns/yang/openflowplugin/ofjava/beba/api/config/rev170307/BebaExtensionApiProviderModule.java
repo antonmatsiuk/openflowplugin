@@ -1,4 +1,7 @@
 package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.ofjava.beba.api.config.rev170307;
+
+import org.opendaylight.openflowjava.beba.api.impl.BebaExtensionCodecRegistratorImpl;
+
 public class BebaExtensionApiProviderModule extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.ofjava.beba.api.config.rev170307.AbstractBebaExtensionApiProviderModule {
     public BebaExtensionApiProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
@@ -15,8 +18,7 @@ public class BebaExtensionApiProviderModule extends org.opendaylight.yang.gen.v1
 
     @Override
     public java.lang.AutoCloseable createInstance() {
-        // TODO:implement
-        throw new java.lang.UnsupportedOperationException();
+        return new BebaExtensionCodecRegistratorImpl(getOpenflowSwitchConnectionProviderDependency());
     }
 
 }
