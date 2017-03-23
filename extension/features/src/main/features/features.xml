@@ -13,5 +13,14 @@
         <bundle>mvn:org.opendaylight.openflowplugin/openflowplugin-extension-nicira/{{VERSION}}</bundle>
         <configfile finalname="etc/opendaylight/karaf/43-openflowjava-nx-config.xml">mvn:org.opendaylight.openflowplugin/openflowplugin-extension-nicira-config/{{VERSION}}/xml/config</configfile>
     </feature>
+    
+        <feature name="odl-openflowplugin-beba-extensions" description="OpenDaylight :: Openflow Plugin :: Beba Extensions" version='${project.version}'>
+        <feature version="${project.version}">odl-openflowplugin-southbound</feature>
+        <bundle>mvn:org.opendaylight.openflowplugin/openflowjava-extension-beba-api/{{VERSION}}</bundle>
+        <bundle>mvn:org.opendaylight.openflowplugin/openflowjava-extension-beba/{{VERSION}}</bundle>
+        <bundle>mvn:org.opendaylight.openflowplugin/openflowplugin-extension-beba/{{VERSION}}</bundle>
+        <configfile finalname="etc/opendaylight/karaf/43-openflowjava-beba-config.xml">mvn:org.opendaylight.openflowplugin/openflowplugin-extension-beba-config/{{VERSION}}/xml/config</configfile>
+    </feature>
+    
 
 </features>

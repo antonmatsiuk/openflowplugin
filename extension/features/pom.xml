@@ -64,6 +64,25 @@
       <groupId>org.opendaylight.openflowplugin</groupId>
       <artifactId>openflowjava-extension-nicira</artifactId>
     </dependency>
+    
+    <!-- Beba extensions -->
+    <dependency>
+      <groupId>org.opendaylight.openflowplugin</groupId>
+      <artifactId>openflowplugin-extension-beba-config</artifactId>
+      <type>xml</type>
+      <classifier>config</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.openflowplugin</groupId>
+      <artifactId>openflowplugin-extension-beba</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.openflowplugin</groupId>
+      <artifactId>openflowjava-extension-beba-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.openflowplugin</groupId>
+      <artifactId>openflowjava-extension-beba</artifactId>
+    </dependency>
   </dependencies>
-
 </project>

@@ -62,6 +62,21 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>openflowplugin-extension-beba</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>openflowjava-extension-beba</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>openflowjava-extension-beba-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>${project.groupId}.model</groupId>
                 <artifactId>model-flow-base</artifactId>
                 <version>${project.version}</version>
@@ -181,6 +196,13 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>openflowplugin-extension-nicira-config</artifactId>
+                <version>${project.version}</version>
+                <type>xml</type>
+                <classifier>config</classifier>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>openflowplugin-extension-beba-config</artifactId>
                 <version>${project.version}</version>
                 <type>xml</type>
                 <classifier>config</classifier>
