@@ -14,6 +14,7 @@ import org.opendaylight.openflowjava.beba.api.impl.ExperimenterMessageDeserializ
 import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.experimenter.core.ExperimenterDataOfChoice;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.PkttmpModCommand;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.experimenter.input.experimenter.data.of.choice.MsgPkttmpModCase;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.experimenter.input.experimenter.data.of.choice.MsgPkttmpModCaseBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.msg.pkttmp.mod.grouping.MsgPkttmpMod;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.msg.pkttmp.mod.grouping.MsgPkttmpModBuilder;
@@ -22,9 +23,6 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.pkttmp.cmd.grouping.cmd.choice.add.pkttmp._case.AddPkttmpBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-
 
 public class PkttmpModCodec extends AbstractMessageCodec {
 
@@ -35,15 +33,19 @@ public class PkttmpModCodec extends AbstractMessageCodec {
     public static final BebaMessageDeserializerKey DESERIALIZER_KEY = new BebaMessageDeserializerKey(
             EncodeConstants.OF13_VERSION_ID, EXPTYPE);
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExperimenterMessageDeserializer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PkttmpModCodec.class);
 
     //ExperimenterIdSerializerKey SERIALIZER_KEY1 = new ExperimenterIdSerializerKey
 
     @Override
     public void serialize(ExperimenterDataOfChoice input, ByteBuf outBuffer) {
         // TODO Auto-generated method stub
-        MsgPkttmpMod msgPkttmpMod = (MsgPkttmpMod) input;
+        MsgPkttmpModCase msgPkttmpModCase = (MsgPkttmpModCase) input;
+        MsgPkttmpMod msgPkttmpMod = msgPkttmpModCase.getMsgPkttmpMod();
         PkttmpModCommand command = msgPkttmpMod.getCommand();
+
+        LOG.info("Serialize ExperimenterDataOfChoice PkttmpId: {} command: {}",
+                msgPkttmpMod.getPkttmpid(), command.getName());
         outBuffer.writeByte(command.getIntValue());
         outBuffer.writeByte(0); //pad??
         outBuffer.writeInt(msgPkttmpMod.getPkttmpid().intValue());

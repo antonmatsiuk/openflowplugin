@@ -41,10 +41,8 @@ public class PkttmpConvertor implements ConvertorMessageToOFJava <ExperimenterMe
         PkttmpModCase pkttmpModCase = (PkttmpModCase)BebaMsgArg;
         MsgPkttmpModCaseBuilder msgPkttmpModCaseBuilder = new MsgPkttmpModCaseBuilder();
         msgPkttmpModCaseBuilder.setMsgPkttmpMod(pkttmpModCase.getMsgPkttmpMod());
-
-        LOG.info("Convert ExperimenterMessageOfChoice ->  ExperimenterDataOfChoice PkttmpId: {}", msgPkttmpModCaseBuilder.getMsgPkttmpMod().getPkttmpid());
-
-
+        LOG.info("Convert ExperimenterMessageOfChoice -> ExperimenterDataOfChoice PkttmpId: {} command: {}",
+                msgPkttmpModCaseBuilder.getMsgPkttmpMod().getPkttmpid(), pkttmpModCase.getMsgPkttmpMod().getCommand().getName());
         return msgPkttmpModCaseBuilder.build();
 
     }
