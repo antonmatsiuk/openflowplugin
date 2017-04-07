@@ -20,6 +20,8 @@ import org.opendaylight.openflowjava.protocol.api.extensibility.OFSerializer;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterDeserializerKey;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdDeserializerKey;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeDeserializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeSerializerKey;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterSerializerKey;
 import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
 import org.opendaylight.openflowjava.protocol.spi.connection.SwitchConnectionProvider;
@@ -49,29 +51,46 @@ public class BebaExtensionCodecRegistratorImpl implements BebaExtensionCodecRegi
         //registerActionDeserializer(ActionDeserializer.OF13_DESERIALIZER_KEY, of13ActionDeserializer);
     }
 
-    private void registerExperimenterMessageDeserializer(ExperimenterIdDeserializerKey key, OFDeserializer<ExperimenterDataOfChoice> deserializer) {
+    @Override
+    public void registerExperimenterIdMessageDeserializer(ExperimenterIdTypeDeserializerKey key, OFDeserializer<ExperimenterDataOfChoice> deserializer) {
         for (SwitchConnectionProvider provider : providers) {
             provider.registerExperimenterMessageDeserializer(key, deserializer);
         }
     }
 
-    private void registerExperimenterMessageSerializer(ExperimenterIdSerializerKey key, OFSerializer<ExperimenterDataOfChoice>  serializer) {
+    @Override
+    public void registerExperimenterMessageDeserializer(ExperimenterIdDeserializerKey key, OFDeserializer<ExperimenterDataOfChoice> deserializer) {
+        for (SwitchConnectionProvider provider : providers) {
+            provider.registerExperimenterMessageDeserializer(key, deserializer);
+        }
+    }
+
+    @Override
+    public void registerExperimenterIdMessageSerializer(ExperimenterIdTypeSerializerKey key, OFSerializer<ExperimenterDataOfChoice>  serializer) {
+        for (SwitchConnectionProvider provider : providers) {
+            provider.registerExperimenterMessageSerializer(key, serializer);
+        }
+    }
+    @Override
+   public void registerExperimenterMessageSerializer(ExperimenterIdSerializerKey key, OFSerializer<ExperimenterDataOfChoice>  serializer) {
         for (SwitchConnectionProvider provider : providers) {
             provider.registerExperimenterMessageSerializer(key, serializer);
         }
     }
 
-    private void unregisterDeserializer(ExperimenterDeserializerKey key) {
+    @Override
+   public void unregisterDeserializer(ExperimenterDeserializerKey key) {
         for (SwitchConnectionProvider provider : providers) {
             provider.unregisterDeserializer(key);
         }
     }
-
-    private void unregisterSerializer(ExperimenterSerializerKey key) {
+    @Override
+   public void unregisterSerializer(ExperimenterSerializerKey key) {
         for (SwitchConnectionProvider provider : providers) {
             provider.unregisterSerializer(key);
         }
     }
+
 
 
     @Override

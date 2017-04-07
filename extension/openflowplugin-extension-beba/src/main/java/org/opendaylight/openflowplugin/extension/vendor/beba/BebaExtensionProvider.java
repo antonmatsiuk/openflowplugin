@@ -74,8 +74,8 @@ public class BebaExtensionProvider implements AutoCloseable {
     }
 
     /**
-     * @param actionCaseType
-     * @param actionConvertor
+     * @param expMessageType
+     * @param messageConvertor
      */
     private void registerMessage13(
             Class<? extends ExperimenterMessageOfChoice> expMessageType,
@@ -85,8 +85,8 @@ public class BebaExtensionProvider implements AutoCloseable {
     }
 
     /**
-     * @param actionCaseType
-     * @param actionConvertor
+     * @param dataofChoice
+     * @param messageConvertor
      */
     private void registerMessage13(
             Class<? extends ExperimenterDataOfChoice> dataofChoice,

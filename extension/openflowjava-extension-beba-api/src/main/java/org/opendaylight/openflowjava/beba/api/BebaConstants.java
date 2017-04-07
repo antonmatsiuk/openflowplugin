@@ -10,7 +10,8 @@ package org.opendaylight.openflowjava.beba.api;
 
 public final class BebaConstants {
 
-    public static final Long BEBA_VENDOR_ID = 0xBEBABEBAL;
+    public static final Long BEBA_VENDOR_ID = 3199909562L;
+    public static final Long PKTTMP_CODEC_ID = 1L;
 
     private BebaConstants() {}
 
