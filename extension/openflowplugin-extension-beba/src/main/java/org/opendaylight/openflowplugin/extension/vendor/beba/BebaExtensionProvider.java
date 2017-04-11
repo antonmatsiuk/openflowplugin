@@ -67,17 +67,15 @@ public class BebaExtensionProvider implements AutoCloseable {
     public void registerConverters() {
         Preconditions.checkNotNull(extensionConverterRegistrator);
         registrations = new HashSet<>();
-        registerMessage13(PkttmpModCase.class, PKTTMP_CONVERTOR); //MD-SAL -> Java
-        registerMessage13(MsgPkttmpModCase.class, PKTTMP_CONVERTOR); //Java -> MD-SAL
-        //TypeVersionKey key = new TypeVersionKey(PkttmpModCase.class, EncodeConstants.OF13_VERSION_ID);
-        //registrations.add(extensionConverterRegistrator.registerMessageConvertor(key, PKTTMP_CONVERTOR));
+        registerExperimenterMessage13(PkttmpModCase.class, PKTTMP_CONVERTOR); //MD-SAL -> Java
+        registerExperimenterMessage13(MsgPkttmpModCase.class, PKTTMP_CONVERTOR); //Java -> MD-SAL
     }
 
     /**
      * @param expMessageType
      * @param messageConvertor
      */
-    private void registerMessage13(
+    private void registerExperimenterMessage13(
             Class<? extends ExperimenterMessageOfChoice> expMessageType,
             ConvertorMessageToOFJava<ExperimenterMessageOfChoice, ExperimenterDataOfChoice> messageConvertor) {
         TypeVersionKey<ExperimenterMessageOfChoice> key = new TypeVersionKey<>(expMessageType, EncodeConstants.OF13_VERSION_ID);
@@ -88,7 +86,7 @@ public class BebaExtensionProvider implements AutoCloseable {
      * @param dataofChoice
      * @param messageConvertor
      */
-    private void registerMessage13(
+    private void registerExperimenterMessage13(
             Class<? extends ExperimenterDataOfChoice> dataofChoice,
             ConvertorMessageFromOFJava<ExperimenterDataOfChoice, MessagePath> messageConvertor) {
         ExperimenterIdSerializerKey<?> key = new ExperimenterIdSerializerKey(EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, dataofChoice);

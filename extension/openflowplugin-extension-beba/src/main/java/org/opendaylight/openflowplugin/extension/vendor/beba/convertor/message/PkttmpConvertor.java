@@ -44,12 +44,11 @@ public class PkttmpConvertor implements ConvertorMessageToOFJava <ExperimenterMe
         LOG.info("Convert ExperimenterMessageOfChoice -> ExperimenterDataOfChoice PkttmpId: {} command: {}",
                 msgPkttmpModCaseBuilder.getMsgPkttmpMod().getPkttmpid(), pkttmpModCase.getMsgPkttmpMod().getCommand().getName());
         return msgPkttmpModCaseBuilder.build();
-
     }
 
     @Override
     public ExperimenterId getExperimenterId() {
-        return new ExperimenterId(BebaConstants.BEBA_VENDOR_ID);
+        return BebaConstants.BEBA_EXPERIMENTER_ID;
     }
 
     @Override

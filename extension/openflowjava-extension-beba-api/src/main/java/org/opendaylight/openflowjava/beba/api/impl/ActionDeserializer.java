@@ -9,15 +9,8 @@
 package org.opendaylight.openflowjava.beba.api.impl;
 
 import io.netty.buffer.ByteBuf;
-
-import org.opendaylight.openflowjava.beba.api.BebaActionDeserializerKey;
-import org.opendaylight.openflowjava.beba.api.BebaConstants;
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFDeserializer;
-import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterActionDeserializerKey;
-import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.common.action.rev150203.actions.grouping.Action;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ActionDeserializer implements OFDeserializer<Action> {
 

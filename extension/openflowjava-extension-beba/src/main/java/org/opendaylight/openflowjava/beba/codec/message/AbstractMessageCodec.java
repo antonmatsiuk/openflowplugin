@@ -12,16 +12,14 @@ import org.opendaylight.openflowjava.beba.api.BebaConstants;
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFDeserializer;
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFSerializer;
 import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.common.action.rev150203.actions.grouping.ActionBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.common.types.rev130731.ExperimenterId;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.experimenter.core.ExperimenterDataOfChoice;
 
 public abstract class AbstractMessageCodec implements OFSerializer<ExperimenterDataOfChoice>, OFDeserializer<ExperimenterDataOfChoice> {
 
     protected final static ExperimenterId getExperimenterId(){
-        return new ExperimenterId(BebaConstants.BEBA_VENDOR_ID);
+        return BebaConstants.BEBA_EXPERIMENTER_ID;
     }
-
 
     protected ByteBuf skipHeader(final ByteBuf message) {
         // size of xid

@@ -8,9 +8,9 @@
 package org.opendaylight.openflowjava.beba.codec.message;
 
 import io.netty.buffer.ByteBuf;
-import org.opendaylight.openflowjava.beba.api.BebaMessageDeserializerKey;
-import org.opendaylight.openflowjava.beba.api.BebaMessageSerializerKey;
-import org.opendaylight.openflowjava.beba.api.impl.ExperimenterMessageDeserializer;
+import org.opendaylight.openflowjava.beba.api.BebaConstants;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeDeserializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeSerializerKey;
 import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.experimenter.core.ExperimenterDataOfChoice;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflowjava.beba.rev170307.PkttmpModCommand;
@@ -27,15 +27,16 @@ import org.slf4j.LoggerFactory;
 public class PkttmpModCodec extends AbstractMessageCodec {
 
     //public static final int LENGTH = 18; //???
-    public static final long EXPTYPE = 1; // OFPT_EXP_PKTTMP_MOD
-    public static final BebaMessageSerializerKey SERIALIZER_KEY = new BebaMessageSerializerKey(
-            EncodeConstants.OF13_VERSION_ID, PkttmpModCodec.class);
-    public static final BebaMessageDeserializerKey DESERIALIZER_KEY = new BebaMessageDeserializerKey(
-            EncodeConstants.OF13_VERSION_ID, EXPTYPE);
+    public static final long EXPTYPE = BebaConstants.PKTTMP_CODEC_ID; // OFPT_EXP_STATE_CHANGED
+    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = new ExperimenterIdTypeDeserializerKey(
+            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
+            ExperimenterDataOfChoice.class);
+    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = new ExperimenterIdTypeSerializerKey(
+            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
+            ExperimenterDataOfChoice.class);
 
     private static final Logger LOG = LoggerFactory.getLogger(PkttmpModCodec.class);
 
-    //ExperimenterIdSerializerKey SERIALIZER_KEY1 = new ExperimenterIdSerializerKey
 
     @Override
     public void serialize(ExperimenterDataOfChoice input, ByteBuf outBuffer) {

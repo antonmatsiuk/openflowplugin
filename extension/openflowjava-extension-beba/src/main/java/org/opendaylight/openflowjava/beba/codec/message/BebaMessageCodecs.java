@@ -11,5 +11,7 @@ public class BebaMessageCodecs {
 
     public static final EventModCodec EVENT_MOD_CODEC = new EventModCodec();
     public static final PkttmpModCodec PKTTMP_MOD_CODEC = new PkttmpModCodec();
-
+    public static final StateModCodec STATE_MOD_CODEC = new StateModCodec();
+    public static final StateChangedCodec STATE_CHANGED_CODEC = new StateChangedCodec();
+    public static final FlowNotifCodec FLOW_NOTIF_CODEC = new FlowNotifCodec();
 }

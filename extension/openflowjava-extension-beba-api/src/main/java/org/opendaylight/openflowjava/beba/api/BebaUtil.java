@@ -9,18 +9,16 @@ package org.opendaylight.openflowjava.beba.api;
 
 import org.opendaylight.openflowjava.protocol.api.keys.ActionSerializerKey;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.ExperimenterMessage;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.experimenter.core.ExperimenterDataOfChoice;
 
 public final class BebaUtil {
 
 
     public static final ActionSerializerKey<?> createOfJavaKeyFrom(BebaActionSerializerKey key) {
         return new ActionSerializerKey<>(key.getVersion(), key.getSubtype(), BebaConstants.BEBA_VENDOR_ID);
-    }
-
-
-    public static final ExperimenterIdSerializerKey<?> createOfJavaKeyFrom(BebaMessageSerializerKey key) {
-        return new ExperimenterIdSerializerKey(key.getVersion(), BebaConstants.BEBA_VENDOR_ID, key.getSubtype());
     }
 
 }

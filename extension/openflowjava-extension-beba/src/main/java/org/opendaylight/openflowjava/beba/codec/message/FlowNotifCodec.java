@@ -16,10 +16,9 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+public class FlowNotifCodec extends AbstractMessageCodec {
 
-public class EventModCodec extends AbstractMessageCodec {
-
-    public static final long EXPTYPE = BebaConstants.EVENT_MOD_CODEC_ID; // OFPT_EXP_PKTTMP_MOD
+    public static final long EXPTYPE = BebaConstants.FLOW_NOTIFICATION_CODEC_ID; // OFPT_EXP_PKTTMP_MOD
     public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = new ExperimenterIdTypeDeserializerKey(
             EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
             ExperimenterDataOfChoice.class);
@@ -27,7 +26,7 @@ public class EventModCodec extends AbstractMessageCodec {
             EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
             ExperimenterDataOfChoice.class);
 
-    private static final Logger LOG = LoggerFactory.getLogger(EventModCodec.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FlowNotifCodec.class);
 
 
     @Override
