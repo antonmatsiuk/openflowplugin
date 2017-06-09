@@ -81,7 +81,7 @@ public class PkttmpModCodec extends AbstractMessageCodec {
         case OFPSCDELPKTTMP:
             break;
         default:
-            LOG.error("DeSerialize error - unknown MsgPkttmpMod Command: {}", command.getIntValue());
+            LOG.error("Deserialize error - unknown MsgPkttmpMod Command: {}", command.getIntValue());
             break;
         }
         LOG.info("Deserialize ExperimenterDataOfChoice PkttmpId: {} command: {} data: {}",

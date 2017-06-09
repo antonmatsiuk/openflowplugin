@@ -18,13 +18,9 @@ import org.slf4j.LoggerFactory;
 
 public class StateModCodec extends AbstractMessageCodec {
 
-    public static final long EXPTYPE = BebaConstants.STATE_MOD_CODEC_ID; // OFPT_EXP_PKTTMP_MOD
-    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = new ExperimenterIdTypeDeserializerKey(
-            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
-            ExperimenterDataOfChoice.class);
-    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = new ExperimenterIdTypeSerializerKey(
-            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
-            ExperimenterDataOfChoice.class);
+    public static final long EXPTYPE = BebaConstants.STATE_MOD_CODEC_ID; //OFPT_EXP_STATE_MOD
+    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = getCodecDeserializerKey(EXPTYPE);
+    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = getCodecSerializerKey(EXPTYPE);
 
     private static final Logger LOG = LoggerFactory.getLogger(StateModCodec.class);
 
@@ -38,7 +34,7 @@ public class StateModCodec extends AbstractMessageCodec {
 
     @Override
     public ExperimenterDataOfChoice deserialize(ByteBuf message) {
-        LOG.error("Deserialize error - Unimplemented derializer");
+        LOG.error("Deserialize error - Unimplemented deserializer");
         return null;
     }
 }

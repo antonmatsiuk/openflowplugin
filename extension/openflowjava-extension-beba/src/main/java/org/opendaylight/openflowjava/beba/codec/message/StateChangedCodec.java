@@ -18,13 +18,9 @@ import org.slf4j.LoggerFactory;
 
 public class StateChangedCodec extends AbstractMessageCodec {
 
-    public static final long EXPTYPE = BebaConstants.STATE_CHANGED_CODEC_ID; // OFPT_EXP_PKTTMP_MOD
-    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = new ExperimenterIdTypeDeserializerKey(
-            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
-            ExperimenterDataOfChoice.class);
-    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = new ExperimenterIdTypeSerializerKey(
-            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
-            ExperimenterDataOfChoice.class);
+    public static final long EXPTYPE = BebaConstants.STATE_CHANGED_CODEC_ID; // OFPT_EXP_STATE_CHANGED
+    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = getCodecDeserializerKey(EXPTYPE);
+    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = getCodecSerializerKey(EXPTYPE);
 
     private static final Logger LOG = LoggerFactory.getLogger(StateChangedCodec.class);
 
