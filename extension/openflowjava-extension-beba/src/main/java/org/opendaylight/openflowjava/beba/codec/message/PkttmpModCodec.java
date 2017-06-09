@@ -26,17 +26,14 @@ import org.slf4j.LoggerFactory;
 
 public class PkttmpModCodec extends AbstractMessageCodec {
 
-    //public static final int LENGTH = 18; //???
     public static final long EXPTYPE = BebaConstants.PKTTMP_CODEC_ID; // OFPT_EXP_STATE_CHANGED
-    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = new ExperimenterIdTypeDeserializerKey(
-            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
-            ExperimenterDataOfChoice.class);
-    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = new ExperimenterIdTypeSerializerKey(
-            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
-            ExperimenterDataOfChoice.class);
+//    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = new ExperimenterIdTypeDeserializerKey(
+//            EncodeConstants.OF13_VERSION_ID, BebaConstants.BEBA_VENDOR_ID, EXPTYPE,
+//            ExperimenterDataOfChoice.class);
+    public static final ExperimenterIdTypeDeserializerKey  DESERIALIZER_KEY = getCodecDeserializerKey(EXPTYPE);
+    public static final ExperimenterIdTypeSerializerKey SERIALIZER_KEY = getCodecSerializerKey(EXPTYPE);
 
     private static final Logger LOG = LoggerFactory.getLogger(PkttmpModCodec.class);
-
 
     @Override
     public void serialize(ExperimenterDataOfChoice input, ByteBuf outBuffer) {
@@ -48,8 +45,9 @@ public class PkttmpModCodec extends AbstractMessageCodec {
         LOG.info("Serialize ExperimenterDataOfChoice PkttmpId: {} command: {}",
                 msgPkttmpMod.getPkttmpid(), command.getName());
         outBuffer.writeByte(command.getIntValue());
-        outBuffer.writeByte(0); //pad??
+        outBuffer.writeByte(0); //pad
         outBuffer.writeInt(msgPkttmpMod.getPkttmpid().intValue());
+        outBuffer.writeBytes(new byte[4]);
 
         switch (command){
         case OFPSCADDPKTTMP:
@@ -66,12 +64,14 @@ public class PkttmpModCodec extends AbstractMessageCodec {
     }
 
     @Override
+    //Never expected from the switch!
     public ExperimenterDataOfChoice deserialize(ByteBuf message) {
-        message = skipHeader(message);
+        message = skipHeader(message); //???
         MsgPkttmpModCaseBuilder msgPkttmpModCaseBuilder = new MsgPkttmpModCaseBuilder();
         MsgPkttmpModBuilder msgPkttmpModBuilder = new MsgPkttmpModBuilder();
         PkttmpModCommand command = PkttmpModCommand.forValue(message.readUnsignedShort());
         msgPkttmpModBuilder.setCommand(command);
+        message.skipBytes(EncodeConstants.SIZE_OF_BYTE_IN_BYTES);
         msgPkttmpModBuilder.setPkttmpid(message.readLong());
         switch (command){
         case OFPSCADDPKTTMP:
@@ -81,9 +81,11 @@ public class PkttmpModCodec extends AbstractMessageCodec {
         case OFPSCDELPKTTMP:
             break;
         default:
-            LOG.error("Serialize error - unknown MsgPkttmpMod Command: {}", command.getIntValue());
+            LOG.error("DeSerialize error - unknown MsgPkttmpMod Command: {}", command.getIntValue());
             break;
         }
+        LOG.info("Deserialize ExperimenterDataOfChoice PkttmpId: {} command: {} data: {}",
+                msgPkttmpModBuilder.getPkttmpid(), command.getName());
         msgPkttmpModCaseBuilder.setMsgPkttmpMod(msgPkttmpModBuilder.build());
         return msgPkttmpModCaseBuilder.build();
     }

@@ -37,6 +37,8 @@ public class BebaExtensionsRegistrator implements AutoCloseable {
         registrator.registerExperimenterMessageTypeSerializer(StateModCodec.SERIALIZER_KEY, BebaMessageCodecs.STATE_MOD_CODEC);
         registrator.registerExperimenterMessageTypeDeserializer(FlowNotifCodec.DESERIALIZER_KEY, BebaMessageCodecs.FLOW_NOTIF_CODEC);
         registrator.registerExperimenterMessageTypeSerializer(FlowNotifCodec.SERIALIZER_KEY, BebaMessageCodecs.FLOW_NOTIF_CODEC);
+
+       //TODO register actions, instructions etc.
     }
 
     public void unregisterExtensions() {
