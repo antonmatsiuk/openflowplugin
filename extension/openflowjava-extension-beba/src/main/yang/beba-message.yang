@@ -17,6 +17,117 @@ module beba-message {
     }
 
 
+    typedef state-mod-command {
+        type enumeration {
+            enum OFPSC_EXP_STATEFUL_TABLE_CONFIG {
+                value 0;
+            }
+            enum OFPSC_EXP_SET_L_EXTRACTOR {
+                value 1;
+            }
+            enum OFPSC_EXP_SET_U_EXTRACTOR {
+                value 2;
+            }
+            enum OFPSC_EXP_SET_FLOW_STATE {
+                value 3;
+            }
+            enum OFPSC_EXP_DEL_FLOW_STATE {
+                value 4;
+            }
+            enum OFPSC_EXP_SET_GLOBAL_STATE {
+                value 5;
+            }
+            enum OFPSC_EXP_RESET_GLOBAL_STATE {
+                value 6;
+            }
+        }
+    }
+
+    grouping statemod-cmd-grouping {
+        choice cmd-choice {
+            case stateful-table-config-case {
+                container stateful-table-config {
+                    leaf table-id {
+                        type uint8;
+                    }
+                    leaf stateful {
+                        type uint8;
+                    }
+                }
+            }
+            case set-extractor-case {
+                container set-extractor{
+                    leaf table-id {
+                        type uint8;
+                    }
+                    leaf field-count {
+                        type uint32;
+                    }
+                    leaf-list fields {
+                        type uint32;
+                        max-elements 6;
+                    }
+                }
+            }
+            case set-flow-state-case {
+                container set-flow-state {
+                    leaf table-id {
+                        type uint8;
+                    }
+                    leaf key-len {
+                        type uint32;
+                    }
+                    leaf state {
+                        type uint32;
+                    }
+                    leaf state-mask {
+                        type uint32;
+                    }
+                    leaf hard-rollback {
+                        type uint32;
+                    }
+                    leaf idle-rollback {
+                        type uint32;
+                    }
+                    leaf hard-timeout {
+                        type uint32;
+                    }
+                    leaf idle-timeout {
+                        type uint32;
+                    }
+                    leaf-list key {
+                        type uint8;
+                        max-elements 48;
+                    }
+                }
+            }
+            case del-flow-state-case {
+                container del-flow-state {
+                    leaf table-id {
+                        type uint8;
+                    }
+                    leaf key-len {
+                        type uint32;
+                    }
+                    leaf-list key {
+                        type uint8;
+                        max-elements 48;
+                    }
+                }
+            }
+            case set-global-state-case {
+                container set-global-state {
+                    leaf global-state {
+                        type uint32;
+                    }
+                    leaf global-state-mask{
+                        type uint32;
+                    }
+                }
+            }
+        }
+    }
+
     typedef pkttmp-mod-command {
         type enumeration {
             enum OFPSC_ADD_PKTTMP {
@@ -31,8 +142,8 @@ module beba-message {
     grouping pkttmp-cmd-grouping {
         choice cmd-choice {
             case add-pkttmp-case {
-                container add-pkttmp{
-                    leaf data{
+                container add-pkttmp {
+                    leaf data {
                         type binary;
                     }
                 }
@@ -83,7 +194,7 @@ module beba-message {
     grouping eventmod-cmd-grouping {
         choice cmd-choice {
             case add-event-case {
-                container add-event{
+                container add-event {
                     leaf ev-type {
                         type uint16;
                     }
@@ -92,6 +203,16 @@ module beba-message {
             }
             case del-event-case{
             }
+        }
+    }
+
+
+    grouping msg-state-mod-grouping {
+        container msg-state-mod {
+            leaf command {
+                type state-mod-command;
+            }
+            uses statemod-cmd-grouping;
         }
     }
 
@@ -107,14 +228,22 @@ module beba-message {
         }
     }
 
+    grouping msg-state-changed-grouping {
+        container msg-state-changed {
+
+        }
+    }
+
+    grouping msg-flow-notif-grouping {
+        container msg-flow-notif {
+
+
+        }
+    }
+
     grouping msg-event-mod-grouping {
-        container msg-pkttmp-mod{
-            leaf command {
-                type uint8;
-            }
-            leaf eventid {
-                type uint32;
-            }
+        container msg-event-mod {
+
             uses eventmod-cmd-grouping;
         }
     }
@@ -122,11 +251,23 @@ module beba-message {
     //ofp-exp-beba-message
     augment "/ofproto:experimenter/ofproto:input/ofproto:experimenter-data-of-choice" {
         ext:augment-identifier "ofj-aug-beba-msg";
+
+        case msg-state-mod-case{
+            uses msg-state-mod-grouping;
+        }
         case msg-pkttmp-mod-case {
             uses msg-pkttmp-mod-grouping;
+        }
+        case msg-state-changed-case {
+            uses msg-state-changed-grouping;
+        }
+        case msg-flow-notif-case {
+            uses msg-flow-notif-grouping;
         }
         case msg-event-mod-case {
             uses msg-event-mod-grouping;
         }
     }
+
+    //ofp-exp-beba-action
 }
