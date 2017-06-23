@@ -9,6 +9,7 @@ module beba-message {
     import openflow-protocol {prefix ofproto; revision-date "2013-07-31";}
     import openflow-instruction {prefix ofinstruction;}
 
+
     description
         "Beba openflow message extensions.";
 
@@ -16,258 +17,351 @@ module beba-message {
         description "Initial revision";
     }
 
+        //STATE_MOD
 
-    typedef state-mod-command {
-        type enumeration {
-            enum OFPSC_EXP_STATEFUL_TABLE_CONFIG {
-                value 0;
-            }
-            enum OFPSC_EXP_SET_L_EXTRACTOR {
-                value 1;
-            }
-            enum OFPSC_EXP_SET_U_EXTRACTOR {
-                value 2;
-            }
-            enum OFPSC_EXP_SET_FLOW_STATE {
-                value 3;
-            }
-            enum OFPSC_EXP_DEL_FLOW_STATE {
-                value 4;
-            }
-            enum OFPSC_EXP_SET_GLOBAL_STATE {
-                value 5;
-            }
-            enum OFPSC_EXP_RESET_GLOBAL_STATE {
-                value 6;
-            }
-        }
-    }
-
-    grouping statemod-cmd-grouping {
-        choice cmd-choice {
-            case stateful-table-config-case {
-                container stateful-table-config {
-                    leaf table-id {
-                        type uint8;
-                    }
-                    leaf stateful {
-                        type uint8;
-                    }
+        typedef state-mod-command {
+            type enumeration {
+                enum OFPSC_EXP_STATEFUL_TABLE_CONFIG {
+                    value 0;
                 }
-            }
-            case set-extractor-case {
-                container set-extractor{
-                    leaf table-id {
-                        type uint8;
-                    }
-                    leaf field-count {
-                        type uint32;
-                    }
-                    leaf-list fields {
-                        type uint32;
-                        max-elements 6;
-                    }
+                enum OFPSC_EXP_SET_L_EXTRACTOR {
+                    value 1;
                 }
-            }
-            case set-flow-state-case {
-                container set-flow-state {
-                    leaf table-id {
-                        type uint8;
-                    }
-                    leaf key-len {
-                        type uint32;
-                    }
-                    leaf state {
-                        type uint32;
-                    }
-                    leaf state-mask {
-                        type uint32;
-                    }
-                    leaf hard-rollback {
-                        type uint32;
-                    }
-                    leaf idle-rollback {
-                        type uint32;
-                    }
-                    leaf hard-timeout {
-                        type uint32;
-                    }
-                    leaf idle-timeout {
-                        type uint32;
-                    }
-                    leaf-list key {
-                        type uint8;
-                        max-elements 48;
-                    }
+                enum OFPSC_EXP_SET_U_EXTRACTOR {
+                    value 2;
                 }
-            }
-            case del-flow-state-case {
-                container del-flow-state {
-                    leaf table-id {
-                        type uint8;
-                    }
-                    leaf key-len {
-                        type uint32;
-                    }
-                    leaf-list key {
-                        type uint8;
-                        max-elements 48;
-                    }
+                enum OFPSC_EXP_SET_FLOW_STATE {
+                    value 3;
                 }
-            }
-            case set-global-state-case {
-                container set-global-state {
-                    leaf global-state {
-                        type uint32;
-                    }
-                    leaf global-state-mask{
-                        type uint32;
-                    }
+                enum OFPSC_EXP_DEL_FLOW_STATE {
+                    value 4;
+                }
+                enum OFPSC_EXP_SET_GLOBAL_STATE {
+                    value 5;
+                }
+                enum OFPSC_EXP_RESET_GLOBAL_STATE {
+                    value 6;
                 }
             }
         }
-    }
 
-    typedef pkttmp-mod-command {
-        type enumeration {
-            enum OFPSC_ADD_PKTTMP {
-                value 0;
-            }
-            enum OFPSC_DEL_PKTTMP {
-                value 1;
-            }
-        }
-    }
-
-    grouping pkttmp-cmd-grouping {
-        choice cmd-choice {
-            case add-pkttmp-case {
-                container add-pkttmp {
-                    leaf data {
-                        type binary;
+        grouping statemod-cmd-grouping {
+            choice cmd-choice {
+                case stateful-table-config-case {
+                    container stateful-table-config {
+                        leaf table-id {
+                            type uint8;
+                        }
+                        leaf stateful {
+                            type uint8;
+                        }
+                    }
+                }
+                case set-extractor-case {
+                    container set-extractor{
+                        leaf table-id {
+                            type uint8;
+                        }
+                        leaf field-count {
+                            type uint32;
+                        }
+                        leaf-list fields {
+                            type uint32;
+                            max-elements 6;
+                        }
+                    }
+                }
+                case set-flow-state-case {
+                    container set-flow-state {
+                        leaf table-id {
+                            type uint8;
+                        }
+                        leaf key-len {
+                            type uint32;
+                        }
+                        leaf state {
+                            type uint32;
+                        }
+                        leaf state-mask {
+                            type uint32;
+                        }
+                        leaf hard-rollback {
+                            type uint32;
+                        }
+                        leaf idle-rollback {
+                            type uint32;
+                        }
+                        leaf hard-timeout {
+                            type uint32;
+                        }
+                        leaf idle-timeout {
+                            type uint32;
+                        }
+                        leaf-list keys {
+                            type uint8;
+                            max-elements 48;
+                        }
+                    }
+                }
+                case del-flow-state-case {
+                    container del-flow-state {
+                        leaf table-id {
+                            type uint8;
+                        }
+                        leaf key-len {
+                            type uint32;
+                        }
+                        leaf-list keys {
+                            type uint8;
+                            max-elements 48;
+                        }
+                    }
+                }
+                case set-global-state-case {
+                    container set-global-state {
+                        leaf global-state {
+                            type uint32;
+                        }
+                        leaf global-state-mask{
+                            type uint32;
+                        }
                     }
                 }
             }
-            case del-pkttmp-case{
-            }
         }
-    }
 
-    grouping port-state-react-grouping{
-        choice react-choice{
-            case exp-instr-case{
-                container exp-instr{
-                    uses ofinstruction:instructions-grouping;
+        //PKTTMP_MOD
+
+        typedef pkttmp-mod-command {
+            type enumeration {
+                enum OFPSC_ADD_PKTTMP {
+                    value 0;
+                }
+                enum OFPSC_DEL_PKTTMP {
+                    value 1;
                 }
             }
         }
-    }
 
-    grouping add-event-grouping {
-        choice ev-choice {
-            case port-state-case{
-                container port-state{
-                    leaf port-no{
-                        type uint32;
+        grouping pkttmp-cmd-grouping {
+            choice cmd-choice {
+                case add-pkttmp-case {
+                    container add-pkttmp {
+                        leaf data {
+                            type binary;
+                        }
                     }
-                    leaf state{
-                        type uint32;
-                    }
-                    leaf react-type{
-                        type uint16;
-                    }
-                    uses port-state-react-grouping;
+                }
+                case del-pkttmp-case{
+            }
+        }
+
+
+        //EVENT_MOD
+
+        typedef event-mod-command {
+            type enumeration {
+                enum OFPSC_ADD_EVENT {
+                    value 0;
+                }
+                enum OFPSC_DEL_EVENT {
+                    value 1;
                 }
             }
-            case flow-expired-case{
-                //TODO
-            }
-            case timer-expired-case{
-                //TODO
-            }
-            case bucket-state-case{
-                //TODO
-            }
         }
-    }
 
-    grouping eventmod-cmd-grouping {
-        choice cmd-choice {
-            case add-event-case {
-                container add-event {
-                    leaf ev-type {
-                        type uint16;
-                    }
-                    uses add-event-grouping;
+        typedef event-type {
+            type enumeration {
+                enum OFPE_PORT_STATE {
+                    value 0;
+                }
+                enum OFPE_FLOW_EXPIRED {
+                    value 1;
+                }
+                enum OFPE_TIMER_EXPIRED {
+                    value 2;
+                }
+                enum OFPE_BUCKET_STATE {
+                    value 3;
                 }
             }
-            case del-event-case{
+        }
+
+        typedef event-react-type {
+            type enumeration {
+                enum OFPR_EXP_INSTRUCTION {
+                    value 0;
+                }
             }
         }
-    }
 
-
-    grouping msg-state-mod-grouping {
-        container msg-state-mod {
-            leaf command {
-                type state-mod-command;
+        grouping port-state-react-grouping {
+            choice react-choice {
+                case exp-instr-case {
+                        uses ofinstruction:instructions-grouping;
+                    }
+                }
             }
-            uses statemod-cmd-grouping;
         }
-    }
 
-    grouping msg-pkttmp-mod-grouping {
-        container msg-pkttmp-mod{
-            leaf command {
-                type pkttmp-mod-command;
+        grouping add-event-grouping {
+            choice event-type-choice {
+                case port-state-case {
+                    container port-state {
+                        leaf port-no {
+                            type uint32;
+                        }
+                        leaf state {
+                            type uint32;
+                        }
+                        leaf react-type {
+                            type event-react-type;
+                        }
+                        uses port-state-react-grouping;
+                    }
+                }
+                case flow-expired-case {
+                    //TODO
+                }
+                case timer-expired-case {
+                    //TODO
+                }
+                case bucket-state-case {
+                    //TODO
+                }
             }
-            leaf pkttmpid {
-                type uint32;
+        }
+
+        grouping eventmod-cmd-grouping {
+            choice cmd-choice {
+                case add-event-mod-case {
+                    container add-event-mod {
+                        leaf event-id {
+                            type uint32;
+                        }
+                        leaf ev-type {
+                            type event-type;
+                        }
+                        uses add-event-grouping;
+                    }
+                }
+                case del-event-mod-case {
+                    container del-event-mod {
+                        leaf event-id {
+                            type uint32;
+                        }
+                    }
+                }
             }
-            uses pkttmp-cmd-grouping;
         }
-    }
 
-    grouping msg-state-changed-grouping {
-        container msg-state-changed {
+        //MESSAGES
 
+        grouping msg-state-mod-grouping {
+            container msg-state-mod {
+                leaf command {
+                    type state-mod-command;
+                }
+                uses statemod-cmd-grouping;
+            }
         }
-    }
 
-    grouping msg-flow-notif-grouping {
-        container msg-flow-notif {
-
-
+        grouping msg-pkttmp-mod-grouping {
+            container msg-pkttmp-mod{
+                leaf command {
+                    type pkttmp-mod-command;
+                }
+                leaf pkttmpid {
+                    type uint32;
+                }
+                uses pkttmp-cmd-grouping;
+            }
         }
-    }
 
-    grouping msg-event-mod-grouping {
-        container msg-event-mod {
+        grouping msg-state-changed-grouping {
+            container msg-state-changed {
+                leaf table-id {
+                    type uint8;
+                }
+                leaf old-state {
+                    type uint32;
+                }
+                leaf new-state {
+                    type uint32;
+                }
+                leaf state-mask {
+                    type uint32;
+                }
+                leaf key-len {
+                    type uint32;
+                }
+                leaf-list keys {
+                    type uint8;
+                    max-elements 48;
+                }
+            }
+        }
 
-            uses eventmod-cmd-grouping;
+        grouping msg-flow-notif-grouping {
+            container msg-flow-notif {
+                leaf ntf-type {
+                    type uint32;
+                }
+                leaf table-id {
+                    type uint32;
+                }
+                leaf ofl-match-header {
+                    type identityref {
+                        base oft:match-type-base;
+                    }
+                }
+                leaf instruction-num {
+                    type uint32;
+                }
+                leaf-list instructions {
+                    type identityref {
+                        base oft:instruction-base;
+                    }
+                }
+            }
         }
-    }
 
-    //ofp-exp-beba-message
-    augment "/ofproto:experimenter/ofproto:input/ofproto:experimenter-data-of-choice" {
-        ext:augment-identifier "ofj-aug-beba-msg";
+        grouping msg-event-mod-grouping {
+            container msg-event-mod {
+                leaf command {
+                    type event-mod-command;
+                }
+                uses eventmod-cmd-grouping;
+            }
+        }
 
-        case msg-state-mod-case{
-            uses msg-state-mod-grouping;
+        //ofp-exp-beba-message
+        augment "/ofproto:experimenter/ofproto:input/ofproto:experimenter-data-of-choice" {
+            ext:augment-identifier "ofj-aug-beba-msg";
+            case msg-state-mod-case{
+                uses msg-state-mod-grouping;
+            }
+            case msg-pkttmp-mod-case {
+                uses msg-pkttmp-mod-grouping;
+            }
+            case msg-state-changed-case {
+                uses msg-state-changed-grouping;
+            }
+            case msg-flow-notif-case {
+                uses msg-flow-notif-grouping;
+            }
+            case msg-event-mod-case {
+                uses msg-event-mod-grouping;
+            }
         }
-        case msg-pkttmp-mod-case {
-            uses msg-pkttmp-mod-grouping;
-        }
-        case msg-state-changed-case {
-            uses msg-state-changed-grouping;
-        }
-        case msg-flow-notif-case {
-            uses msg-flow-notif-grouping;
-        }
-        case msg-event-mod-case {
-            uses msg-event-mod-grouping;
-        }
-    }
 
-    //ofp-exp-beba-action
+        //ofp-exp-beba-multipart-message
+
+        //oxm-exp-match-fields
+
+        //ofp-exp-beba-action
+
+        //ofp-exp-beba-instruction
+
+        //ofp-exp-beba-errors
 }
