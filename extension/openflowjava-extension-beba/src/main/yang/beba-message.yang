@@ -9,15 +9,12 @@ module beba-message {
     import openflow-protocol {prefix ofproto; revision-date "2013-07-31";}
     import openflow-instruction {prefix ofinstruction;}
 
-
     description
         "Beba openflow message extensions.";
 
     revision "2017-03-07" {
         description "Initial revision";
     }
-
-        //STATE_MOD
 
         typedef state-mod-command {
             type enumeration {
@@ -45,6 +42,54 @@ module beba-message {
             }
         }
 
+        typedef event-mod-command {
+            type enumeration {
+                enum OFPSC_ADD_EVENT {
+                    value 0;
+                }
+                enum OFPSC_DEL_EVENT {
+                    value 1;
+                }
+            }
+        }
+
+        typedef event-type {
+            type enumeration {
+                enum OFPE_PORT_STATE {
+                    value 0;
+                }
+                enum OFPE_FLOW_EXPIRED {
+                    value 1;
+                }
+                enum OFPE_TIMER_EXPIRED {
+                    value 2;
+                }
+                enum OFPE_BUCKET_STATE {
+                    value 3;
+                }
+            }
+        }
+
+        typedef event-react-type {
+            type enumeration {
+                enum OFPR_EXP_INSTRUCTION {
+                    value 0;
+                }
+            }
+        }
+
+        typedef pkttmp-mod-command {
+            type enumeration {
+                enum OFPSC_ADD_PKTTMP {
+                    value 0;
+                }
+                enum OFPSC_DEL_PKTTMP {
+                    value 1;
+                }
+            }
+        }
+
+        //STATE_MOD
         grouping statemod-cmd-grouping {
             choice cmd-choice {
                 case stateful-table-config-case {
@@ -131,73 +176,25 @@ module beba-message {
         }
 
         //PKTTMP_MOD
-
-        typedef pkttmp-mod-command {
-            type enumeration {
-                enum OFPSC_ADD_PKTTMP {
-                    value 0;
-                }
-                enum OFPSC_DEL_PKTTMP {
-                    value 1;
-                }
-            }
-        }
-
         grouping pkttmp-cmd-grouping {
             choice cmd-choice {
                 case add-pkttmp-case {
-                    container add-pkttmp {
-                        leaf data {
+                    container add-pkttmp{
+                        leaf data{
                             type binary;
                         }
                     }
                 }
                 case del-pkttmp-case{
+                }
             }
         }
-
 
         //EVENT_MOD
-
-        typedef event-mod-command {
-            type enumeration {
-                enum OFPSC_ADD_EVENT {
-                    value 0;
-                }
-                enum OFPSC_DEL_EVENT {
-                    value 1;
-                }
-            }
-        }
-
-        typedef event-type {
-            type enumeration {
-                enum OFPE_PORT_STATE {
-                    value 0;
-                }
-                enum OFPE_FLOW_EXPIRED {
-                    value 1;
-                }
-                enum OFPE_TIMER_EXPIRED {
-                    value 2;
-                }
-                enum OFPE_BUCKET_STATE {
-                    value 3;
-                }
-            }
-        }
-
-        typedef event-react-type {
-            type enumeration {
-                enum OFPR_EXP_INSTRUCTION {
-                    value 0;
-                }
-            }
-        }
-
-        grouping port-state-react-grouping {
-            choice react-choice {
-                case exp-instr-case {
+        grouping port-state-react-grouping{
+            choice react-choice{
+                case exp-instr-case{
+                    container exp-instr{
                         uses ofinstruction:instructions-grouping;
                     }
                 }
@@ -205,28 +202,28 @@ module beba-message {
         }
 
         grouping add-event-grouping {
-            choice event-type-choice {
-                case port-state-case {
-                    container port-state {
-                        leaf port-no {
+            choice ev-choice {
+                case port-state-case{
+                    container port-state{
+                        leaf port-no{
                             type uint32;
                         }
-                        leaf state {
+                        leaf state{
                             type uint32;
                         }
-                        leaf react-type {
-                            type event-react-type;
+                        leaf react-type{
+                            type uint16;
                         }
                         uses port-state-react-grouping;
                     }
                 }
-                case flow-expired-case {
+                case flow-expired-case{
                     //TODO
                 }
-                case timer-expired-case {
+                case timer-expired-case{
                     //TODO
                 }
-                case bucket-state-case {
+                case bucket-state-case{
                     //TODO
                 }
             }
@@ -255,17 +252,6 @@ module beba-message {
             }
         }
 
-        //MESSAGES
-
-        grouping msg-state-mod-grouping {
-            container msg-state-mod {
-                leaf command {
-                    type state-mod-command;
-                }
-                uses statemod-cmd-grouping;
-            }
-        }
-
         grouping msg-pkttmp-mod-grouping {
             container msg-pkttmp-mod{
                 leaf command {
@@ -275,6 +261,27 @@ module beba-message {
                     type uint32;
                 }
                 uses pkttmp-cmd-grouping;
+            }
+        }
+
+        grouping msg-event-mod-grouping {
+            container msg-pkttmp-mod{
+                leaf command {
+                    type event-mod-command;
+                }
+                leaf eventid {
+                    type uint32;
+                }
+                uses eventmod-cmd-grouping;
+            }
+        }
+
+        grouping msg-state-mod-grouping {
+            container msg-state-mod {
+                leaf command {
+                    type state-mod-command;
+                }
+                uses statemod-cmd-grouping;
             }
         }
 
@@ -326,23 +333,17 @@ module beba-message {
             }
         }
 
-        grouping msg-event-mod-grouping {
-            container msg-event-mod {
-                leaf command {
-                    type event-mod-command;
-                }
-                uses eventmod-cmd-grouping;
-            }
-        }
-
         //ofp-exp-beba-message
         augment "/ofproto:experimenter/ofproto:input/ofproto:experimenter-data-of-choice" {
             ext:augment-identifier "ofj-aug-beba-msg";
-            case msg-state-mod-case{
-                uses msg-state-mod-grouping;
-            }
             case msg-pkttmp-mod-case {
                 uses msg-pkttmp-mod-grouping;
+            }
+            case msg-event-mod-case {
+                uses msg-event-mod-grouping;
+            }
+            case msg-state-mod-case{
+                uses msg-state-mod-grouping;
             }
             case msg-state-changed-case {
                 uses msg-state-changed-grouping;
@@ -350,18 +351,5 @@ module beba-message {
             case msg-flow-notif-case {
                 uses msg-flow-notif-grouping;
             }
-            case msg-event-mod-case {
-                uses msg-event-mod-grouping;
-            }
         }
-
-        //ofp-exp-beba-multipart-message
-
-        //oxm-exp-match-fields
-
-        //ofp-exp-beba-action
-
-        //ofp-exp-beba-instruction
-
-        //ofp-exp-beba-errors
 }

@@ -8,9 +8,14 @@
 package org.opendaylight.openflowjava.beba.api;
 
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFDeserializer;
+import org.opendaylight.openflowjava.protocol.api.extensibility.OFGeneralDeserializer;
+import org.opendaylight.openflowjava.protocol.api.extensibility.OFGeneralSerializer;
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFSerializer;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeDeserializerKey;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterInstructionDeserializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterInstructionSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.InstructionSerializerKey;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.experimenter.core.ExperimenterDataOfChoice;
 
 
@@ -34,4 +39,13 @@ public interface BebaExtensionCodecRegistrator {
 
     void unregisterActionSerializer(BebaActionSerializerKey key);
     */
+
+    void registerInstructionDeserializer(ExperimenterInstructionDeserializerKey key, OFGeneralDeserializer deserializer);
+
+    void unregisterInstructionDeserializer(ExperimenterInstructionDeserializerKey key);
+
+    void registerInstructionSerializer(ExperimenterInstructionSerializerKey key, OFGeneralSerializer serializer);
+
+    void unregisterInstructionSerializer(ExperimenterInstructionSerializerKey key);
+
 }

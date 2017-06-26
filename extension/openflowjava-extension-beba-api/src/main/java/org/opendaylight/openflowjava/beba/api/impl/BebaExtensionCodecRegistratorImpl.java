@@ -10,9 +10,14 @@ package org.opendaylight.openflowjava.beba.api.impl;
 import java.util.List;
 import org.opendaylight.openflowjava.beba.api.BebaExtensionCodecRegistrator;
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFDeserializer;
+import org.opendaylight.openflowjava.protocol.api.extensibility.OFGeneralDeserializer;
+import org.opendaylight.openflowjava.protocol.api.extensibility.OFGeneralSerializer;
 import org.opendaylight.openflowjava.protocol.api.extensibility.OFSerializer;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeDeserializerKey;
 import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterIdTypeSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterInstructionDeserializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterInstructionSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.InstructionSerializerKey;
 import org.opendaylight.openflowjava.protocol.spi.connection.SwitchConnectionProvider;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.openflow.protocol.rev130731.experimenter.core.ExperimenterDataOfChoice;
 
@@ -64,6 +69,36 @@ public class BebaExtensionCodecRegistratorImpl implements BebaExtensionCodecRegi
     public void close() throws Exception {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void registerInstructionDeserializer(ExperimenterInstructionDeserializerKey key,
+            OFGeneralDeserializer deserializer) {
+        for (SwitchConnectionProvider provider : providers) {
+            provider.registerInstructionDeserializer(key, deserializer);
+        }
+    }
+
+    @Override
+    public void unregisterInstructionDeserializer(ExperimenterInstructionDeserializerKey key) {
+        for (SwitchConnectionProvider provider : providers) {
+            provider.unregisterDeserializer(key);
+        }
+    }
+
+    @Override
+    public void registerInstructionSerializer(ExperimenterInstructionSerializerKey key, OFGeneralSerializer serializer) {
+        for (SwitchConnectionProvider provider : providers) {
+            provider.registerInstructionSerializer(key, serializer);
+        }
+
+    }
+
+    @Override
+    public void unregisterInstructionSerializer(ExperimenterInstructionSerializerKey key) {
+        for (SwitchConnectionProvider provider : providers) {
+            provider.unregisterSerializer(key);
+        }
     }
 
 
