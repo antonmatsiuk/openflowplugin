@@ -1,0 +1,68 @@
+module beba-message {
+    yang-version 1;
+
+    namespace "urn:opendaylight:openflowjava:beba";
+    prefix "beba-instr";
+
+    import openflow-types {prefix oft;}
+    import yang-ext {prefix ext; revision-date "2013-07-09";}
+    import openflow-protocol {prefix ofproto; revision-date "2013-07-31";}
+    import openflow-instruction {prefix ofinstruction;}
+
+    description
+        "Beba openflow experimental instructions.";
+
+    revision "2017-03-07" {
+        description "Initial revision";
+    }
+
+    identity port-mod-instr {
+        description "Port modification experimenter instruction";
+        base oft:instruction-base;
+    }
+
+    identity in-switch-packet-gen-instr {
+        description "InSP packet generation experimenter instruction";
+        base oft:instruction-base;
+    }
+
+    grouping port-mod-grouping {
+        container port-mod {
+            leaf port-id {
+                type uint32;
+            }
+            leaf conf {
+                type uint32;
+            }
+            leaf mask {
+                type uint32;
+            }
+        }
+    }
+
+    grouping in-switch-packet-gen-grouping {
+        container in-switch-packet-gen {
+            leaf pkttmp-id {
+                type uint32;
+            }
+            leaf actions-num {
+                type uint8;
+            }
+            leaf-list actions {
+               type identityref {
+                   base oft:action-base;
+                   }
+            }
+        }
+    }
+
+    augment "/ofinstruction:instruction-container/ofinstruction:instruction-choice" {
+        ext:augment-identifier "ofj-aug-beba-instr";
+        case port-mod-case {
+            uses port-mod-grouping;
+        }
+        case in-switch-packet-gen-case {
+            uses in-switch-packet-gen-grouping;
+        }
+    }
+}
