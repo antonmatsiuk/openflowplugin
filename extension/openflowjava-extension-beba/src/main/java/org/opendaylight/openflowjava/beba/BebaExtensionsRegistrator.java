@@ -10,6 +10,10 @@ package org.opendaylight.openflowjava.beba;
 
 import com.google.common.base.Preconditions;
 import org.opendaylight.openflowjava.beba.api.BebaExtensionCodecRegistrator;
+import org.opendaylight.openflowjava.beba.codec.instruction.InstructionSerializer;
+import org.opendaylight.openflowjava.beba.codec.instruction.BebaInstructionCodecs;
+import org.opendaylight.openflowjava.beba.codec.instruction.InSpCodec;
+import org.opendaylight.openflowjava.beba.codec.instruction.PortModCodec;
 import org.opendaylight.openflowjava.beba.codec.message.BebaMessageCodecs;
 import org.opendaylight.openflowjava.beba.codec.message.EventModCodec;
 import org.opendaylight.openflowjava.beba.codec.message.FlowNotifCodec;
@@ -27,6 +31,7 @@ public class BebaExtensionsRegistrator implements AutoCloseable {
     }
 
     public void registerBebaExtensions() {
+        //Experimenter Messages
         registrator.registerExperimenterMessageTypeDeserializer(PkttmpModCodec.DESERIALIZER_KEY, BebaMessageCodecs.PKTTMP_MOD_CODEC);
         registrator.registerExperimenterMessageTypeSerializer(PkttmpModCodec.SERIALIZER_KEY, BebaMessageCodecs.PKTTMP_MOD_CODEC);
         registrator.registerExperimenterMessageTypeDeserializer(EventModCodec.DESERIALIZER_KEY, BebaMessageCodecs.EVENT_MOD_CODEC);
@@ -38,11 +43,18 @@ public class BebaExtensionsRegistrator implements AutoCloseable {
         registrator.registerExperimenterMessageTypeDeserializer(FlowNotifCodec.DESERIALIZER_KEY, BebaMessageCodecs.FLOW_NOTIF_CODEC);
         registrator.registerExperimenterMessageTypeSerializer(FlowNotifCodec.SERIALIZER_KEY, BebaMessageCodecs.FLOW_NOTIF_CODEC);
 
-       //TODO register actions, instructions etc.
-        //registrator.registerInstructionSerializer();
+        //Experimenter Instructions
+        registrator.registerInstructionDeserializer(InSpCodec.DESERIALIZER_KEY, BebaInstructionCodecs.OFPIT_IN_SWITCH_PKT_GEN_CODEC);
+        registrator.registerInstructionDeserializer(PortModCodec.DESERIALIZER_KEY, BebaInstructionCodecs.OFPIT_PKTTMP_MOD_CODEC);
+
+        registrator.registerInstructionSerializer(InstructionSerializer.SERIALIZER_KEY, new InstructionSerializer());
+        registrator.registerInstructionTypeSerializer(InSpCodec.SERIALIZER_KEY, BebaInstructionCodecs.OFPIT_IN_SWITCH_PKT_GEN_CODEC);
+        registrator.registerInstructionTypeSerializer(PortModCodec.SERIALIZER_KEY, BebaInstructionCodecs.OFPIT_PKTTMP_MOD_CODEC);
+
     }
 
     public void unregisterExtensions() {
+        //Experimenter Messages
         registrator.unregisterExperimenterMessageTypeSerializer(PkttmpModCodec.SERIALIZER_KEY);
         registrator.unregisterExperimenterMessageTypeDeserializer(PkttmpModCodec.DESERIALIZER_KEY);
         registrator.unregisterExperimenterMessageTypeSerializer(EventModCodec.SERIALIZER_KEY);
@@ -53,6 +65,9 @@ public class BebaExtensionsRegistrator implements AutoCloseable {
         registrator.unregisterExperimenterMessageTypeDeserializer(StateModCodec.DESERIALIZER_KEY);
         registrator.unregisterExperimenterMessageTypeSerializer(FlowNotifCodec.SERIALIZER_KEY);
         registrator.unregisterExperimenterMessageTypeDeserializer(FlowNotifCodec.DESERIALIZER_KEY);
+
+        //Experimenter Instructions
+
 
     }
 

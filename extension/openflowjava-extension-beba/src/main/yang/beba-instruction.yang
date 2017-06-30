@@ -1,13 +1,14 @@
-module beba-message {
+module beba-instruction {
     yang-version 1;
 
-    namespace "urn:opendaylight:openflowjava:beba";
+    namespace "urn:opendaylight:openflowjava:beba:instruction";
     prefix "beba-instr";
 
     import openflow-types {prefix oft;}
     import yang-ext {prefix ext; revision-date "2013-07-09";}
     import openflow-protocol {prefix ofproto; revision-date "2013-07-31";}
     import openflow-instruction {prefix ofinstruction;}
+    import openflow-augments {prefix ofaugments; revision-date "2015-02-25";}
 
     description
         "Beba openflow experimental instructions.";
@@ -56,13 +57,22 @@ module beba-message {
         }
     }
 
-    augment "/ofinstruction:instruction-container/ofinstruction:instruction-choice" {
-        ext:augment-identifier "ofj-aug-beba-instr";
-        case port-mod-case {
-            uses port-mod-grouping;
+    grouping beba-instruction-grouping {
+        choice beba-instruction-choice {
+            case port-mod-case {
+                uses port-mod-grouping;
+            }
+            case in-switch-packet-gen-case {
+                uses in-switch-packet-gen-grouping;
+            }
         }
-        case in-switch-packet-gen-case {
-            uses in-switch-packet-gen-grouping;
-        }
+    }
+
+    augment "/ofinstruction:instruction-container/ofinstruction:instruction-choice/ofaugments:experimenter-id-case/ofaugments:experimenter"{
+      ext:augment-identifier "beba-experimenter-instr";
+      leaf beba-instr-type {
+          type uint32;
+      }
+      uses beba-instruction-grouping;
     }
 }
