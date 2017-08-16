@@ -8,6 +8,7 @@ module beba-instruction {
     import yang-ext {prefix ext; revision-date "2013-07-09";}
     import openflow-protocol {prefix ofproto; revision-date "2013-07-31";}
     import openflow-instruction {prefix ofinstruction;}
+    import openflow-action {prefix ofaction;}
     import openflow-augments {prefix ofaugments; revision-date "2015-02-25";}
 
     description
@@ -46,14 +47,13 @@ module beba-instruction {
             leaf pkttmp-id {
                 type uint32;
             }
-            leaf actions-num {
-                type uint8;
-            }
-            leaf-list actions {
-               type identityref {
-                   base oft:action-base;
-                   }
-            }
+            uses ofaction:actions-grouping;
+//            leaf-list actions {
+//                type oft:action-type;
+//               type identityref {
+//                   base oft:action-base;
+//                   }
+//            }
         }
     }
 

@@ -38,12 +38,15 @@ public class InstructionSerializer implements OFSerializer<Experimenter> {
         BebaExperimenterInstr bebaExperimenter = (BebaExperimenterInstr) input;
         Long instrtype = bebaExperimenter.getBebaInstrType();
 
-        OFSerializer<Experimenter> instructionTypeSerializer = BebaExtensionCodecRegistratorImpl.getInstructionTypeSerializer(instrtype);
-
+        OFSerializer<Experimenter> instructionTypeSerializer =
+                BebaExtensionCodecRegistratorImpl.getInstructionTypeSerializer(instrtype);
         if (instructionTypeSerializer == null) {
-            LOG.error("NoSserializer was found for instrtype {}", instrtype);
-            return;
+            throw new IllegalStateException("No Serializer was found for instrtype " + instrtype);
         }
+
+        outBuffer.writeLong(experimenterId);
+        outBuffer.writeLong(instrtype);
+        outBuffer.writeBytes(new byte[4]); //pad[4]
         instructionTypeSerializer.serialize(input, outBuffer);
     }
 }

@@ -90,6 +90,11 @@
             <artifactId>openflowjava-extension-beba-api</artifactId>
             <version>0.3.1-Boron-SR1</version>
         </dependency>
+        <dependency>
+            <groupId>org.opendaylight.openflowjava</groupId>
+            <artifactId>openflow-protocol-impl</artifactId>
+            <version>0.8.1-Boron-SR1</version>
+         </dependency>
 <!--         <dependency> -->
 <!--             <groupId>org.opendaylight.mdsal.model</groupId> -->
 <!--             <artifactId>yang-ext</artifactId> -->
